@@ -1,21 +1,18 @@
 package com.cliniquedigitale.util;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordUtils {
-    public static String hashPassword(String password) {
+    
+    public static String hashPassword(String plainPassword) {
+        return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
+    }
+
+    public static boolean verifyPassword(String plainPassword, String hashedPassword) {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(password.getBytes());
-            byte[] bytes = md.digest();
-            StringBuilder sb = new StringBuilder();
-            for (byte b : bytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            return BCrypt.checkpw(plainPassword, hashedPassword);
+        } catch (Exception e) {
+            return false;
         }
     }
 }

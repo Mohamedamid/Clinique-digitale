@@ -5,7 +5,7 @@ import com.cliniquedigitale.entity.Patient;
 import com.cliniquedigitale.entity.Role;
 import com.cliniquedigitale.entity.User;
 
-public class PatientMapper {
+public class RegisterPatientMapper {
 
     public static Patient toEntity(RegisterPatientDTO dto) {
         Patient patient = new Patient();

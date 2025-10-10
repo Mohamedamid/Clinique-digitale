@@ -1,11 +1,11 @@
 package com.cliniquedigitale.controllers;
 
+import com.cliniquedigitale.dto.LoginDTO;
 import com.cliniquedigitale.dto.RegisterPatientDTO;
 import com.cliniquedigitale.entity.BloodType;
 import com.cliniquedigitale.entity.Gender;
-import com.cliniquedigitale.entity.Patient;
+import com.cliniquedigitale.entity.User;
 import com.cliniquedigitale.services.AuthService;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,10 +15,11 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet({"/register", "/login", "/logout"})
-public class PatientServlet extends HttpServlet {
+public class AuthServlet extends HttpServlet {
 
     private AuthService authService = new AuthService();
 
@@ -33,7 +34,7 @@ public class PatientServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/patient/register.jsp").forward(request, response);
                 break;
             case "/login":
-                request.getRequestDispatcher("/WEB-INF/views/patient/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(request, response);
                 break;
             case "/logout":
                 logout(request, response);
@@ -82,7 +83,7 @@ public class PatientServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/patient/register.jsp").forward(req, resp);
         } else {
             req.setAttribute("success", "Registration successful! Please login.");
-            req.getRequestDispatcher("/WEB-INF/views/patient/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(req, resp);
         }
     }
 
@@ -97,36 +98,57 @@ public class PatientServlet extends HttpServlet {
         if (email == null || email.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
             req.setAttribute("error", "Email and password are required");
-            req.getRequestDispatcher("/WEB-INF/views/patient/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(req, resp);
             return;
         }
 
-        // Authenticate user
-//        Patient patient = authService.loginPatient(email, password);
-//
-//        if (patient != null) {
-//            // Create session
-//            HttpSession session = req.getSession();
-//            session.setAttribute("user", patient);
-//            session.setAttribute("userId", patient.getId());
-//            session.setAttribute("userEmail", patient.getUser().getEmail());
-//            session.setAttribute("userName", patient.getUser().getFullName());
-//            session.setAttribute("userRole", "PATIENT");
-//
-//            // Set session timeout (30 minutes)
-//            session.setMaxInactiveInterval(30 * 60);
-//
-//            // Handle "Remember Me"
-//            if ("on".equals(remember)) {
-//                session.setMaxInactiveInterval(30 * 24 * 60 * 60); // 30 days
-//            }
-//
-//            // Redirect to patient dashboard
-//            resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
-//        } else {
-//            req.setAttribute("error", "Invalid email or password");
-//            req.getRequestDispatcher("/WEB-INF/views/patient/login.jsp").forward(req, resp);
-//        }
+        // Login
+        LoginDTO loginDTO = new LoginDTO(email, password);
+        Map<String, String> errors = new HashMap<>();
+        User user = authService.loginUser(loginDTO, errors);
+
+        if (user == null) {
+            // Login failed
+            req.setAttribute("errors", errors);
+            req.setAttribute("error", "Invalid email or password");
+            req.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(req, resp);
+        } else {
+            // Login success - Create session
+            HttpSession session = req.getSession();
+            session.setAttribute("user", user);
+            session.setAttribute("userId", user.getId());
+            session.setAttribute("userEmail", user.getEmail());
+            session.setAttribute("userName", user.getFullName());
+            session.setAttribute("userRole", user.getRole().name());
+
+            // Session timeout
+            session.setMaxInactiveInterval(30 * 60); // 30 minutes
+
+            // Remember me
+            if ("on".equals(remember)) {
+                session.setMaxInactiveInterval(30 * 24 * 60 * 60); // 30 days
+            }
+
+            // ✅ REDIRECT vers SERVLETS (pas /WEB-INF/)
+            String role = user.getRole().name();
+
+            switch (role) {
+                case "ADMIN":
+                    resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
+                    break;
+                case "PATIENT":
+                    resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
+                    break;
+                case "DOCTOR":
+                    resp.sendRedirect(req.getContextPath() + "/doctor/dashboard");
+                    break;
+                case "STAFF":
+                    resp.sendRedirect(req.getContextPath() + "/staff/dashboard");
+                    break;
+                default:
+                    resp.sendRedirect(req.getContextPath() + "/");
+            }
+        }
     }
 
     private void logout(HttpServletRequest req, HttpServletResponse resp)

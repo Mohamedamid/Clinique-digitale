@@ -2,6 +2,7 @@ package com.cliniquedigitale.repository;
 
 import com.cliniquedigitale.config.JpaUtil;
 import com.cliniquedigitale.entity.Patient;
+import com.cliniquedigitale.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
@@ -48,12 +49,11 @@ public class UserRepository {
     /**
      * Find patient by email
      */
-    public Patient findByEmail(String email) {
+    public User findByEmail(String email) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
-            return em.createQuery("SELECT p FROM Patient p WHERE p.email = :email", Patient.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
+            return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                    .setParameter("email", email).getSingleResult();
         } catch (NoResultException e) {
             return null;
         } finally {

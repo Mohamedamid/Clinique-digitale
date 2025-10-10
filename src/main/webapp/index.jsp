@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinique Digitale - Professional Healthcare Solutions</title>
+    <title>Clinique Digitale - Professional Healthcare Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
@@ -35,7 +35,6 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Mobile menu animation */
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -79,7 +78,6 @@
                 <a href="#home" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
                 <a href="#services" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Services</a>
                 <a href="#about" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</a>
-                <a href="#contact" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</a>
 
                 <button id="themeToggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                     <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
@@ -91,7 +89,7 @@
                 </button>
 
                 <a href="${pageContext.request.contextPath}/login" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">Login</a>
-                <a href="${pageContext.request.contextPath}/register" class="bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">Register</a>
+                <a href="${pageContext.request.contextPath}/register" class="bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-md">Register</a>
             </div>
 
             <div class="flex items-center space-x-2 md:hidden">
@@ -115,7 +113,6 @@
             <a href="#home" class="block py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600">Home</a>
             <a href="#services" class="block py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600">Services</a>
             <a href="#about" class="block py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600">About</a>
-            <a href="#contact" class="block py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600">Contact</a>
             <a href="${pageContext.request.contextPath}/login" class="block py-2 text-sm font-medium text-gray-700 dark:text-gray-300">Login</a>
             <a href="${pageContext.request.contextPath}/register" class="block bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium text-center">Register</a>
         </div>
@@ -138,44 +135,43 @@
                 </h1>
 
                 <p class="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                    Streamline your healthcare operations with our comprehensive digital platform.
-                    Secure, efficient, and designed for modern medical practices.
+                    Automate appointment scheduling, ensure medical follow-up, and guarantee complete traceability of all clinical operations.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
-                    <a href="${pageContext.request.contextPath}/register" class="inline-flex items-center justify-center bg-blue-600 text-white px-6 md:px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm md:text-base">
+                    <a href="${pageContext.request.contextPath}/register" class="inline-flex items-center justify-center bg-blue-600 text-white px-6 md:px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm md:text-base shadow-lg">
                         Get Started
                         <svg class="w-4 h-4 md:w-5 md:h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>
                     </a>
-                    <a href="#services" class="inline-flex items-center justify-center border-2 border-gray-300 dark:border-gray-700 px-6 md:px-8 py-3 rounded-lg font-medium hover:border-blue-600 transition-colors text-sm md:text-base">
+                    <a href="#services" class="inline-flex items-center justify-center border-2 border-gray-300 dark:border-gray-700 px-6 md:px-8 py-3 rounded-lg font-medium hover:border-blue-600 dark:hover:border-blue-600 transition-colors text-sm md:text-base">
                         Learn More
                     </a>
                 </div>
 
                 <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-8 pt-4">
                     <div class="text-center">
-                        <p class="text-2xl md:text-3xl font-bold text-blue-600">1000+</p>
-                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Providers</p>
+                        <p class="text-2xl md:text-3xl font-bold text-blue-600">50+</p>
+                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Specialties</p>
                     </div>
                     <div class="h-8 md:h-12 w-px bg-gray-300 dark:bg-gray-700"></div>
                     <div class="text-center">
-                        <p class="text-2xl md:text-3xl font-bold text-blue-600">50K+</p>
+                        <p class="text-2xl md:text-3xl font-bold text-blue-600">1000+</p>
                         <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Patients</p>
                     </div>
                     <div class="h-8 md:h-12 w-px bg-gray-300 dark:bg-gray-700"></div>
                     <div class="text-center">
                         <p class="text-2xl md:text-3xl font-bold text-blue-600">24/7</p>
-                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Support</p>
+                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Available</p>
                     </div>
                 </div>
             </div>
 
             <div class="relative hidden lg:block">
                 <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8">
-                    <div class="absolute -top-3 md:-top-4 -right-3 md:-right-4 bg-blue-600 text-white px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium">
-                        Secure & Compliant
+                    <div class="absolute -top-3 md:-top-4 -right-3 md:-right-4 bg-blue-600 text-white px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium shadow-lg">
+                        HIPAA Compliant
                     </div>
 
                     <div class="space-y-4 md:space-y-6">
@@ -186,8 +182,8 @@
                                 </svg>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-xs md:text-sm truncate">Appointment Management</p>
-                                <p class="text-xs text-gray-600 dark:text-gray-400 truncate">Efficient scheduling</p>
+                                <p class="font-semibold text-xs md:text-sm truncate">Smart Scheduling</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 truncate">Automated time slots</p>
                             </div>
                         </div>
 
@@ -199,8 +195,8 @@
                                 </svg>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-xs md:text-sm truncate">Medical Records</p>
-                                <p class="text-xs text-gray-600 dark:text-gray-400 truncate">Secure digital storage</p>
+                                <p class="font-semibold text-xs md:text-sm truncate">Medical Notes</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 truncate">Secure records</p>
                             </div>
                         </div>
 
@@ -210,8 +206,8 @@
                                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Uptime</p>
                             </div>
                             <div class="text-center p-3 md:p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg">
-                                <p class="text-xl md:text-2xl font-bold text-blue-600">HIPAA</p>
-                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Compliant</p>
+                                <p class="text-xl md:text-2xl font-bold text-blue-600">Secure</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">JPA/Hibernate</p>
                             </div>
                         </div>
                     </div>
@@ -225,9 +221,9 @@
 <section id="services" class="py-12 md:py-20 px-4 bg-white dark:bg-gray-800">
     <div class="max-w-7xl mx-auto">
         <div class="text-center mb-10 md:mb-16">
-            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">Comprehensive Healthcare Solutions</h2>
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">Complete Healthcare Solutions</h2>
             <p class="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
-                Enterprise-grade features designed for modern healthcare providers
+                Modular, secure, and scalable platform for modern clinics
             </p>
         </div>
 
@@ -240,7 +236,7 @@
                 </div>
                 <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3">Patient Management</h3>
                 <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Complete patient lifecycle management with advanced tracking and reporting.
+                    Complete lifecycle tracking with medical history, soft delete, and appointment history.
                 </p>
             </div>
 
@@ -250,21 +246,21 @@
                         <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
                     </svg>
                 </div>
-                <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3">Appointment Scheduling</h3>
+                <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3">Smart Appointments</h3>
                 <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Intelligent scheduling with automated reminders and conflict resolution.
+                    Automated slot generation, overlap detection, and 12h cancellation policy.
                 </p>
             </div>
 
             <div class="hover-lift bg-gray-50 dark:bg-gray-700 p-6 md:p-8 rounded-xl sm:col-span-2 lg:col-span-1">
                 <div class="w-12 h-12 md:w-14 md:h-14 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 md:mb-6">
                     <svg class="w-6 h-6 md:w-7 md:h-7 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                     </svg>
                 </div>
-                <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3">Security & Compliance</h3>
+                <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3">Medical Notes</h3>
                 <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Enterprise-grade security with full HIPAA and GDPR compliance.
+                    Locked notes after validation, only for DONE appointments.
                 </p>
             </div>
         </div>
@@ -276,9 +272,9 @@
     <div class="max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
-                <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">Why Choose Clinique Digitale?</h2>
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">Why Clinique Digitale?</h2>
                 <p class="text-base md:text-lg text-gray-600 dark:text-gray-400 mb-6 md:mb-8 leading-relaxed">
-                    We provide healthcare institutions with cutting-edge technology solutions.
+                    Built with Java EE, JPA/Hibernate, and modern web standards for enterprise healthcare.
                 </p>
 
                 <div class="space-y-4 md:space-y-6">
@@ -289,8 +285,8 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-sm md:text-base mb-1">Enterprise-Grade Security</h3>
-                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Bank-level encryption and multi-factor authentication</p>
+                            <h3 class="font-semibold text-sm md:text-base mb-1">Multi-layer Architecture</h3>
+                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Controller, Service, Repository, DTO pattern</p>
                         </div>
                     </div>
 
@@ -301,108 +297,73 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-sm md:text-base mb-1">24/7 Professional Support</h3>
-                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Dedicated support team available round the clock</p>
+                            <h3 class="font-semibold text-sm md:text-base mb-1">Business Rules Engine</h3>
+                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Availability, overlaps, cancellation policies</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3 md:space-x-4">
+                        <div class="w-5 h-5 md:w-6 md:h-6 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 md:mt-1">
+                            <svg class="w-3 h-3 md:w-4 md:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm md:text-base mb-1">Tested & Reliable</h3>
+                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">JUnit 5 + Mockito unit tests</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 md:p-8">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Trusted by Healthcare Leaders</h3>
-                <div class="space-y-4 md:space-y-6">
-                    <div class="border-l-4 border-blue-600 pl-3 md:pl-4">
-                        <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 italic mb-2">
-                            "Clinique Digitale has transformed how we manage our practice."
-                        </p>
-                        <p class="font-semibold text-sm md:text-base">Dr. Ahmed Benani</p>
-                        <p class="text-xs md:text-sm text-gray-500">CMO, Casablanca Medical Center</p>
+                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Key Features</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-blue-600 font-bold">4</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm md:text-base">User Roles</p>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Admin, Doctor, Patient, Staff</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-green-50 dark:bg-green-900/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-green-600 font-bold">✓</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm md:text-base">Automated Scheduling</p>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">15/30 min slots, 2h lead time</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-purple-600 font-bold">🔒</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm md:text-base">Secure & Compliant</p>
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">BCrypt passwords, HIPAA ready</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-3 gap-3 md:gap-4 mt-6 md:mt-8 pt-6 md:pt-8 border-t dark:border-gray-700">
                     <div class="text-center">
-                        <p class="text-xl md:text-2xl font-bold text-blue-600">50+</p>
-                        <p class="text-xs text-gray-600 dark:text-gray-400">Hospitals</p>
+                        <p class="text-xl md:text-2xl font-bold text-blue-600">JSP</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Frontend</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-xl md:text-2xl font-bold text-blue-600">200+</p>
-                        <p class="text-xs text-gray-600 dark:text-gray-400">Clinics</p>
+                        <p class="text-xl md:text-2xl font-bold text-blue-600">JPA</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">ORM</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-xl md:text-2xl font-bold text-blue-600">98%</p>
-                        <p class="text-xs text-gray-600 dark:text-gray-400">Satisfaction</p>
+                        <p class="text-xl md:text-2xl font-bold text-blue-600">Maven</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Build</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="py-12 md:py-20 px-4 bg-white dark:bg-gray-800">
-    <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-10 md:mb-16">
-            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">Get in Touch</h2>
-            <p class="text-base md:text-lg text-gray-600 dark:text-gray-400">
-                Our team is ready to assist you
-            </p>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-8 md:gap-12">
-            <div class="space-y-6 md:space-y-8">
-                <div class="flex items-start space-x-3 md:space-x-4">
-                    <a href="${pageContext.request.contextPath}/" class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h1 class="text-lg font-bold text-gray-900 dark:text-white">Clinique Digitale</h1>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Healthcare Platform</p>
-                        </div>
-                    </a>
-                    <div>
-                        <h3 class="font-semibold text-sm md:text-base mb-1">Email</h3>
-                        <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">contact@cliniquedigitale.ma</p>
-                    </div>
-                </div>
-
-                <div class="flex items-start space-x-3 md:space-x-4">
-                    <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 md:w-6 md:h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-sm md:text-base mb-1">Phone</h3>
-                        <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">+212 5 22-XX-XX-XX</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gray-50 dark:bg-gray-700 p-6 md:p-8 rounded-xl">
-                <form class="space-y-4 md:space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium mb-1.5 md:mb-2">Full Name</label>
-                        <input type="text" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-blue-600 outline-none text-sm md:text-base" placeholder="John Doe">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-1.5 md:mb-2">Email</label>
-                        <input type="email" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-blue-600 outline-none text-sm md:text-base" placeholder="john@example.com">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-1.5 md:mb-2">Message</label>
-                        <textarea rows="3" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 focus:ring-2 focus:ring-blue-600 outline-none text-sm md:text-base" placeholder="Your message..."></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-blue-600 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm md:text-base">
-                        Send Message
-                    </button>
-                </form>
             </div>
         </div>
     </div>
@@ -414,27 +375,27 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
             <div class="col-span-2 md:col-span-1">
                 <div class="flex items-center space-x-2 mb-3 md:mb-4">
-                    <svg class="w-6 h-6 md:w-8 md:h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.15-.78-6-4.42-6-8V8.3l6-3.08 6 3.08V12c0 3.58-2.85 7.22-6 8z"/>
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                     </svg>
                     <span class="text-lg md:text-xl font-bold">Clinique Digitale</span>
                 </div>
-                <p class="text-gray-400 text-xs md:text-sm">Professional healthcare solutions</p>
+                <p class="text-gray-400 text-xs md:text-sm">Professional healthcare management system</p>
             </div>
 
             <div>
                 <h3 class="font-semibold mb-3 md:mb-4 text-sm md:text-base">Platform</h3>
                 <ul class="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Features</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Security</a></li>
+                    <li><a href="#services" class="hover:text-blue-400 transition-colors">Features</a></li>
+                    <li><a href="#about" class="hover:text-blue-400 transition-colors">Technology</a></li>
                 </ul>
             </div>
 
             <div>
-                <h3 class="font-semibold mb-3 md:mb-4 text-sm md:text-base">Company</h3>
+                <h3 class="font-semibold mb-3 md:mb-4 text-sm md:text-base">Resources</h3>
                 <ul class="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">About</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Contact</a></li>
+                    <li><a href="${pageContext.request.contextPath}/register" class="hover:text-blue-400 transition-colors">Register</a></li>
+                    <li><a href="${pageContext.request.contextPath}/login" class="hover:text-blue-400 transition-colors">Login</a></li>
                 </ul>
             </div>
 
