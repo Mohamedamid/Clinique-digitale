@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/patient/dashboard")
-public class PatientDashboardServlet extends HttpServlet {
+@WebServlet({"/admin/dashboard"})
+public class AdminPagesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -27,12 +27,20 @@ public class PatientDashboardServlet extends HttpServlet {
         // Check role
         String userRole = (String) session.getAttribute("userRole");
 
-        if (!"PATIENT".equals(userRole)) {
+        if (!"ADMIN".equals(userRole)) {
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
 
-        // Forward to dashboard
-        req.getRequestDispatcher("/WEB-INF/views/patient/dashboard.jsp").forward(req, resp);
+        // Forward based on path
+        String path = req.getServletPath();
+
+        switch (path) {
+            case "/admin/dashboard":
+                req.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(req, resp);
+                break;
+            default:
+                resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
+        }
     }
 }
