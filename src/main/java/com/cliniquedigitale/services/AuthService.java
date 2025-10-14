@@ -1,10 +1,7 @@
 package com.cliniquedigitale.services;
 
 import com.cliniquedigitale.dto.LoginDTO;
-import com.cliniquedigitale.dto.RegisterPatientDTO;
-import com.cliniquedigitale.entity.Patient;
 import com.cliniquedigitale.entity.User;
-import com.cliniquedigitale.mapper.RegisterPatientMapper;
 import com.cliniquedigitale.repository.UserRepository;
 import com.cliniquedigitale.util.PasswordUtils;
 import com.cliniquedigitale.util.Validator;

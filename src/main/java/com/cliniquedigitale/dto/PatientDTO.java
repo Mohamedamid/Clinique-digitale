@@ -5,7 +5,7 @@ import com.cliniquedigitale.entity.Gender;
 
 import java.time.LocalDate;
 
-public class RegisterPatientDTO {
+public class PatientDTO {
     private String fullName;
     private String email;
     private String password;
@@ -16,7 +16,7 @@ public class RegisterPatientDTO {
     private String insuranceNumber ;
     private BloodType bloodType;
 
-    public RegisterPatientDTO(String email, String password, String fullName,  Gender gender, LocalDate birthDate, String phone, String cin, String insuranceNumber, BloodType bloodType) {
+    public PatientDTO(String email, String password, String fullName, Gender gender, LocalDate birthDate, String phone, String cin, String insuranceNumber, BloodType bloodType) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;

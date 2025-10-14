@@ -1,13 +1,13 @@
 package com.cliniquedigitale.mapper;
 
-import com.cliniquedigitale.dto.RegisterPatientDTO;
+import com.cliniquedigitale.dto.PatientDTO;
 import com.cliniquedigitale.entity.Patient;
 import com.cliniquedigitale.entity.Role;
 import com.cliniquedigitale.entity.User;
 
 public class RegisterPatientMapper {
 
-    public static Patient toEntity(RegisterPatientDTO dto) {
+    public static Patient toEntity(PatientDTO dto) {
         Patient patient = new Patient();
 
         User user = new User();

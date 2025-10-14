@@ -1,6 +1,6 @@
 package com.cliniquedigitale.services;
 
-import com.cliniquedigitale.dto.RegisterPatientDTO;
+import com.cliniquedigitale.dto.PatientDTO;
 import com.cliniquedigitale.entity.Patient;
 import com.cliniquedigitale.entity.User;
 import com.cliniquedigitale.mapper.RegisterPatientMapper;
@@ -18,7 +18,7 @@ public class PatientService {
     /**
      * Register a new patient
      */
-    public Map<String, String> registerPatient(RegisterPatientDTO dto) {
+    public Map<String, String> registerPatient(PatientDTO dto) {
         Validator validator = new Validator();
 
         validator.required("fullName", dto.getFullName(), "Name is required");

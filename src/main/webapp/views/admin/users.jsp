@@ -1,3 +1,5 @@
+<%@ page import="java.util.*" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
     String activePage = "users";
 %>
@@ -18,32 +20,25 @@
             </button>
         </div>
 
-        <!-- Filter Section -->
-        <div class="mb-6 bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700 p-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search by Name</label>
-                    <input type="text" id="filterName" placeholder="Enter name..." class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent" onkeyup="filterTable()">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search by Email</label>
-                    <input type="text" id="filterEmail" placeholder="Enter email..." class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent" onkeyup="filterTable()">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filter by Role</label>
-                    <select id="filterRole" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="filterTable()">
-                        <option value="">-- All Roles --</option>
-                        <option value="ADMIN">Admin</option>
-                        <option value="DOCTOR">Doctor</option>
-                        <option value="STAFF">Staff</option>
-                        <option value="PATIENT">Patient</option>
-                    </select>
-                </div>
-                <div class="flex items-end">
-                    <button type="button" onclick="resetFilter()" class="w-full bg-gray-600 text-white px-3 py-2 rounded-lg hover:bg-gray-700 text-sm font-medium">Reset Filter</button>
-                </div>
+        <!-- Filter & Search -->
+        <form class="flex gap-4 mb-6" method="get" action="">
+            <div>
+                <select name="role" class="w-[150px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    <option value="">All Roles</option>
+                    <option value="ADMIN" ${param.role == 'ADMIN' ? 'selected' : ''}>Admin</option>
+                    <option value="DOCTOR" ${param.role == 'DOCTOR' ? 'selected' : ''}>Doctor</option>
+                    <option value="STAFF" ${param.role == 'STAFF' ? 'selected' : ''}>Staff</option>
+                    <option value="PATIENT" ${param.role == 'PATIENT' ? 'selected' : ''}>Patient</option>
+                </select>
             </div>
-        </div>
+            <div >
+                <input type="text" name="q" value="${fn:escapeXml(param.q)}" placeholder="Search by name or email"
+                       class="w-[350px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" />
+            </div>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium shadow-lg transition-all transform hover:scale-105">
+                Filter
+            </button>
+        </form>
 
         <!-- Users Table -->
         <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700">
@@ -131,7 +126,7 @@
 
 <!-- Doctor Modal -->
 <div id="doctorModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 overflow-y-auto py-8">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 w-[550px] shadow-2xl my-8 mx-auto transform scale-95 animate-scale-in">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 w-[800px] shadow-2xl my-8 mx-auto transform scale-95 animate-scale-in">
         <div class="text-center mb-6">
             <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,42 +136,44 @@
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Add New Doctor</h3>
         </div>
         <form action="${pageContext.request.contextPath}/admin/users/add?role=DOCTOR" method="post" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
-                <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
+                    <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Matricule</label>
+                    <input type="text" name="matricule" placeholder="Enter matricule" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Speciality</label>
+                    <select name="specialiteId" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                        <option value="">-- Choose Speciality --</option>
+                        <c:forEach var="spec" items="${specialiteList}">
+                            <option value="${spec.id}">${spec.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                    <input type="email" name="email" placeholder="doctor@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
+                    <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                <input type="email" name="email" placeholder="doctor@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-                <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Matricule</label>
-                <input type="text" name="matricule" placeholder="Enter matricule" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Speciality</label>
-                <select name="specialiteId" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
-                    <option value="">-- Choose Speciality --</option>
-                    <c:forEach var="spec" items="${specialiteList}">
-                        <option value="${spec.id}">${spec.name}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="flex justify-end gap-3 pt-4">
-                <button type="button" onclick="closeAllModals()" class="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors">Cancel</button>
-                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Doctor</button>
-            </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeAllModals()" class="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors">Cancel</button>
+                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Doctor</button>
+                </div>
         </form>
     </div>
 </div>
 
 <!-- Staff Modal -->
-<div id="staffModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 overflow-y-auto py-8">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 w-[550px] shadow-2xl my-8 mx-auto transform scale-95 animate-scale-in">
+<div id="staffModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden z-50 overflow-y-auto py-8">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 w-[800px] shadow-2xl my-8 transform scale-95 animate-scale-in">
         <div class="text-center mb-6">
             <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,21 +183,23 @@
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Add New Staff</h3>
         </div>
         <form action="${pageContext.request.contextPath}/admin/users/add?role=STAFF" method="post" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
-                <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                <input type="email" name="email" placeholder="staff@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-                <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Position</label>
-                <input type="text" name="position" placeholder="Enter position" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+            <div class="grid grid-cols-4 gap-4">
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
+                    <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Position</label>
+                    <input type="text" name="position" placeholder="Enter position" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                    <input type="email" name="email" placeholder="staff@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
+                    <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                </div>
             </div>
             <div class="flex justify-end gap-3 pt-4">
                 <button type="button" onclick="closeAllModals()" class="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors">Cancel</button>
@@ -211,8 +210,8 @@
 </div>
 
 <!-- Patient Modal -->
-<div id="patientModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 overflow-y-auto py-8">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 w-[550px] shadow-2xl my-8 mx-auto transform scale-95 animate-scale-in">
+<div id="patientModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden z-50 overflow-y-auto py-8">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 w-[800px] shadow-2xl my-8 transform scale-95 animate-scale-in">
         <div class="text-center mb-6">
             <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -222,18 +221,10 @@
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Add New Patient</h3>
         </div>
         <form action="${pageContext.request.contextPath}/admin/users/add?role=PATIENT" method="post" class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="col-span-2">
+            <div class="grid grid-cols-3 gap-4">
+                <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
                     <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
-                </div>
-                <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                    <input type="email" name="email" placeholder="patient@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
-                </div>
-                <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-                    <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">CIN</label>
@@ -242,6 +233,14 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Birth</label>
                     <input type="date" name="dateOfBirth" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                    <input type="email" name="email" placeholder="patient@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
+                    <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gender</label>
@@ -265,7 +264,7 @@
                         <option value="O_NEGATIVE">O-</option>
                     </select>
                 </div>
-                <div class="col-span-2">
+                <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Insurance Number</label>
                     <input type="text" name="insuranceNumber" placeholder="Insurance number (optional)" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
                 </div>
@@ -277,6 +276,9 @@
         </form>
     </div>
 </div>
+
+<!-- Include Footer -->
+<%@ include file="layouts/footer.jsp" %>
 
 <!-- Custom CSS Animations -->
 <style>
@@ -327,37 +329,6 @@
         });
     }
 
-    // Filter functionality
-    function filterTable() {
-        const filterName = document.getElementById('filterName').value.toLowerCase();
-        const filterEmail = document.getElementById('filterEmail').value.toLowerCase();
-        const filterRole = document.getElementById('filterRole').value;
-        const rows = document.querySelectorAll('.user-row');
-
-        rows.forEach(row => {
-            const name = row.getAttribute('data-name');
-            const email = row.getAttribute('data-email');
-            const role = row.getAttribute('data-role');
-
-            const matchName = name.includes(filterName);
-            const matchEmail = email.includes(filterEmail);
-            const matchRole = filterRole === '' || role === filterRole;
-
-            if (matchName && matchEmail && matchRole) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
-
-    function resetFilter() {
-        document.getElementById('filterName').value = '';
-        document.getElementById('filterEmail').value = '';
-        document.getElementById('filterRole').value = '';
-        filterTable();
-    }
-
     // Close modal when clicking outside
     document.addEventListener('click', function(e) {
         const modals = ['userTypeModal', 'doctorModal', 'staffModal', 'patientModal'];
@@ -376,8 +347,3 @@
         }
     });
 </script>
-
-<!-- Fixed Footer -->
-<footer class="fixed bottom-0 left-0 right-0 lg:left-64 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 text-center text-sm text-gray-600 dark:text-gray-400 z-40">
-    © 2025 Clinique Digitale — Admin Panel
-</footer>

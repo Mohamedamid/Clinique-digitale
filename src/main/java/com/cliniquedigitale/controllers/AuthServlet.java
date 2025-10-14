@@ -1,7 +1,7 @@
 package com.cliniquedigitale.controllers;
 
 import com.cliniquedigitale.dto.LoginDTO;
-import com.cliniquedigitale.dto.RegisterPatientDTO;
+import com.cliniquedigitale.dto.PatientDTO;
 import com.cliniquedigitale.entity.BloodType;
 import com.cliniquedigitale.entity.Gender;
 import com.cliniquedigitale.entity.User;
@@ -72,7 +72,7 @@ public class AuthServlet extends HttpServlet {
         String dateOfBirth = req.getParameter("dateOfBirth");
         String bloodType = req.getParameter("bloodType");
 
-        RegisterPatientDTO registerPatientDTO = new RegisterPatientDTO(
+        PatientDTO registerPatientDTO = new PatientDTO(
                 email, password, name, Gender.valueOf(gender),
                 LocalDate.parse(dateOfBirth), phone, cin,
                 insuranceNumber, BloodType.valueOf(bloodType)
