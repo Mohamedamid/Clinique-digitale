@@ -16,7 +16,6 @@ public class StaffPagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Check session
         HttpSession session = req.getSession(false);
 
         if (session == null || session.getAttribute("user") == null) {
@@ -24,7 +23,6 @@ public class StaffPagesServlet extends HttpServlet {
             return;
         }
 
-        // Check role
         String userRole = (String) session.getAttribute("userRole");
 
         if (!"STAFF".equals(userRole)) {
@@ -32,12 +30,11 @@ public class StaffPagesServlet extends HttpServlet {
             return;
         }
 
-        // Forward based on path
         String path = req.getServletPath();
 
         switch (path) {
             case "/staff/dashboard":
-                req.getRequestDispatcher("/WEB-INF/views/staff/dashboard.jsp").forward(req, resp);
+                req.getRequestDispatcher("/views/staff/dashboard.jsp").forward(req, resp);
                 break;
             default:
                 resp.sendRedirect(req.getContextPath() + "/staff/dashboard");

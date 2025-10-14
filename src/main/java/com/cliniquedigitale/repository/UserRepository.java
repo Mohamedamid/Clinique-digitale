@@ -6,22 +6,20 @@ import com.cliniquedigitale.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
+import java.util.List;
+
 public class UserRepository {
 
     /**
-     * Save a new patient
+     * Find patient by email
      */
-    public void save(Patient patient) {
+    public User findByEmail(String email) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
-            em.getTransaction().begin();
-            em.persist(patient);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Error saving patient", e);
+            return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                    .setParameter("email", email).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         } finally {
             em.close();
         }
@@ -41,21 +39,6 @@ public class UserRepository {
                 em.getTransaction().rollback();
             }
             throw new RuntimeException("Error updating patient", e);
-        } finally {
-            em.close();
-        }
-    }
-
-    /**
-     * Find patient by email
-     */
-    public User findByEmail(String email) {
-        EntityManager em = JpaUtil.getEntityManager();
-        try {
-            return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
-                    .setParameter("email", email).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
         } finally {
             em.close();
         }
@@ -106,6 +89,15 @@ public class UserRepository {
                 em.getTransaction().rollback();
             }
             throw new RuntimeException("Error deleting patient", e);
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<User> findAll() {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM User u", User.class).getResultList();
         } finally {
             em.close();
         }

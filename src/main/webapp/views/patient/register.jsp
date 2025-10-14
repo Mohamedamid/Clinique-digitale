@@ -121,7 +121,7 @@
         </c:if>
 
         <!-- Form -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm border border-gray-200 dark:border-gray-700 fade-in">
             <form action="${pageContext.request.contextPath}/register" method="post" id="registrationForm" class="p-8">
                 <input type="hidden" name="action" value="register">
 

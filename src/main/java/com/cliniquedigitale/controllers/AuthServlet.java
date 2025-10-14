@@ -6,6 +6,7 @@ import com.cliniquedigitale.entity.BloodType;
 import com.cliniquedigitale.entity.Gender;
 import com.cliniquedigitale.entity.User;
 import com.cliniquedigitale.services.AuthService;
+import com.cliniquedigitale.services.PatientService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class AuthServlet extends HttpServlet {
 
     private AuthService authService = new AuthService();
+    private PatientService patientService = new PatientService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,10 +33,10 @@ public class AuthServlet extends HttpServlet {
 
         switch (path) {
             case "/register":
-                request.getRequestDispatcher("/WEB-INF/views/patient/register.jsp").forward(request, response);
+                request.getRequestDispatcher("/views/patient/register.jsp").forward(request, response);
                 break;
             case "/login":
-                request.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/views/Authentification/login.jsp").forward(request, response);
                 break;
             case "/logout":
                 logout(request, response);
@@ -76,14 +78,14 @@ public class AuthServlet extends HttpServlet {
                 insuranceNumber, BloodType.valueOf(bloodType)
         );
 
-        Map<String, String> errors = authService.registerPatient(registerPatientDTO);
+        Map<String, String> errors = patientService.registerPatient(registerPatientDTO);
 
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
-            req.getRequestDispatcher("/WEB-INF/views/patient/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/patient/register.jsp").forward(req, resp);
         } else {
             req.setAttribute("success", "Registration successful! Please login.");
-            req.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/Authentification/login.jsp").forward(req, resp);
         }
     }
 
@@ -98,7 +100,7 @@ public class AuthServlet extends HttpServlet {
         if (email == null || email.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
             req.setAttribute("error", "Email and password are required");
-            req.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/Authentification/login.jsp").forward(req, resp);
             return;
         }
 
@@ -111,7 +113,7 @@ public class AuthServlet extends HttpServlet {
             // Login failed
             req.setAttribute("errors", errors);
             req.setAttribute("error", "Invalid email or password");
-            req.getRequestDispatcher("/WEB-INF/views/Authentification/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/Authentification/login.jsp").forward(req, resp);
         } else {
             // Login success - Create session
             HttpSession session = req.getSession();
@@ -129,7 +131,7 @@ public class AuthServlet extends HttpServlet {
                 session.setMaxInactiveInterval(30 * 24 * 60 * 60); // 30 days
             }
 
-            // ✅ REDIRECT vers SERVLETS (pas /WEB-INF/)
+            // ✅ REDIRECT vers SERVLETS (pas /)
             String role = user.getRole().name();
 
             switch (role) {
