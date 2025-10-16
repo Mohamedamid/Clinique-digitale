@@ -20,7 +20,6 @@ public class SpecialiteService {
     public Map<String, String> save(SpecialiteDTO dto) {
         Validator validator = new Validator();
 
-        // Pour l'ajout, l'ID doit être null
         if (dto.getId() != null) {
             return Map.of("id", "ID should be null for new specialty");
         }
@@ -38,7 +37,6 @@ public class SpecialiteService {
         }
 
         try {
-            // Récupérer le département complet
             Department department = departmentRepository.findById(dto.getDepartmentId());
             if (department == null) {
                 return Map.of("departmentId", "Selected department not found");
@@ -56,7 +54,6 @@ public class SpecialiteService {
     public Map<String, String> edit(SpecialiteDTO dto) {
         Validator validator = new Validator();
 
-        // Validation de l'ID
         if (dto.getId() == null) {
             return Map.of("id", "Specialty ID is required for editing");
         }
@@ -74,13 +71,11 @@ public class SpecialiteService {
         }
 
         try {
-            // Vérifier si la spécialité existe
             Specialite existingSpecialite = specialiteRepository.findById(dto.getId());
             if (existingSpecialite == null) {
                 return Map.of("not_found", "Specialty not found");
             }
 
-            // Récupérer le département complet
             Department department = departmentRepository.findById(dto.getDepartmentId());
             if (department == null) {
                 return Map.of("departmentId", "Selected department not found");

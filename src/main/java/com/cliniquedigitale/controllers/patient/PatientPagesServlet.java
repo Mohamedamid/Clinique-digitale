@@ -1,4 +1,4 @@
-package com.cliniquedigitale.controllers;
+package com.cliniquedigitale.controllers.patient;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,8 +9,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet({"/doctor/dashboard"})
-public class DoctorPagesServlet extends HttpServlet {
+@WebServlet({"/patient/dashboard", "/patient/appointments", "/patient/doctors", "/patient/records"})
+public class PatientPagesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -25,7 +25,7 @@ public class DoctorPagesServlet extends HttpServlet {
 
         String userRole = (String) session.getAttribute("userRole");
 
-        if (!"DOCTOR".equals(userRole)) {
+        if (!"PATIENT".equals(userRole)) {
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
@@ -33,11 +33,20 @@ public class DoctorPagesServlet extends HttpServlet {
         String path = req.getServletPath();
 
         switch (path) {
-            case "/doctor/dashboard":
-                req.getRequestDispatcher("/views/doctor/dashboard.jsp").forward(req, resp);
+            case "/patient/dashboard":
+                req.getRequestDispatcher("/views/patient/dashboard.jsp").forward(req, resp);
+                break;
+            case "/patient/appointments":
+                req.getRequestDispatcher("/views/patient/appointments.jsp").forward(req, resp);
+                break;
+            case "/patient/doctors":
+                req.getRequestDispatcher("/views/patient/doctors.jsp").forward(req, resp);
+                break;
+            case "/patient/records":
+                req.getRequestDispatcher("/views/patient/records.jsp").forward(req, resp);
                 break;
             default:
-                resp.sendRedirect(req.getContextPath() + "/doctor/dashboard");
+                resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
         }
     }
 }

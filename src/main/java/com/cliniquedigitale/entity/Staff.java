@@ -16,7 +16,7 @@ public class Staff {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -28,7 +28,6 @@ public class Staff {
         this.createdAt = LocalDateTime.now();
     }
 
-    // getters/setters...
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getPosition() { return position; }

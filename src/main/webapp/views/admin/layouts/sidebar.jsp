@@ -23,10 +23,28 @@
                 🏠 <span class="ml-3 font-medium">Dashboard</span>
             </a>
 
-            <a href="${pageContext.request.contextPath}/admin/users"
+            <!-- <a href="${pageContext.request.contextPath}/admin/users"
                class="flex items-center px-4 py-3 mb-1 rounded-lg
          <%= "users".equals(activePage) ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" %>">
                 👥 <span class="ml-3 font-medium">Users</span>
+            </a> -->
+
+            <a href="${pageContext.request.contextPath}/admin/doctors"
+               class="flex items-center px-4 py-3 mb-1 rounded-lg
+         <%= "doctors".equals(activePage) ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" %>">
+                🩺 <span class="ml-3 font-medium">Doctors</span>
+            </a>
+
+            <a href="${pageContext.request.contextPath}/admin/staff"
+               class="flex items-center px-4 py-3 mb-1 rounded-lg
+         <%= "staff".equals(activePage) ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" %>">
+                💼 <span class="ml-3 font-medium">Staff</span>
+            </a>
+
+            <a href="${pageContext.request.contextPath}/admin/patients"
+               class="flex items-center px-4 py-3 mb-1 rounded-lg
+         <%= "patients".equals(activePage) ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" %>">
+                🧑‍ <span class="ml-3 font-medium">Patients</span>
             </a>
 
             <a href="${pageContext.request.contextPath}/admin/departments"

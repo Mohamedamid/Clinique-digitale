@@ -1,4 +1,4 @@
-package com.cliniquedigitale.controllers;
+package com.cliniquedigitale.controllers.admin;
 
 import com.cliniquedigitale.dto.DepartmentDTO;
 import com.cliniquedigitale.dto.SpecialiteDTO;
@@ -81,9 +81,7 @@ public class SpecialitePageServlet extends HttpServlet {
             Long departmentId = Long.parseLong(departmentIdParam);
             boolean active = "true".equalsIgnoreCase(isActiveParam);
 
-            SpecialiteDTO specialiteDTO = new SpecialiteDTO(
-                    null, name, active, description, departmentId, null
-            );
+            SpecialiteDTO specialiteDTO = new SpecialiteDTO( null, name, active, description, departmentId, null );
 
             errors = specialiteService.save(specialiteDTO);
 

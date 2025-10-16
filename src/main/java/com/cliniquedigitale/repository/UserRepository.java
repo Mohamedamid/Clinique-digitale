@@ -10,9 +10,6 @@ import java.util.List;
 
 public class UserRepository {
 
-    /**
-     * Find patient by email
-     */
     public User findByEmail(String email) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -25,9 +22,6 @@ public class UserRepository {
         }
     }
 
-    /**
-     * Update existing patient
-     */
     public void update(Patient patient) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -44,9 +38,6 @@ public class UserRepository {
         }
     }
 
-    /**
-     * Find patient by CIN
-     */
     public Patient findByCin(String cin) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -60,9 +51,6 @@ public class UserRepository {
         }
     }
 
-    /**
-     * Find patient by ID
-     */
     public Patient findById(Long id) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -72,9 +60,6 @@ public class UserRepository {
         }
     }
 
-    /**
-     * Delete patient
-     */
     public void delete(Long id) {
         EntityManager em = JpaUtil.getEntityManager();
         try {

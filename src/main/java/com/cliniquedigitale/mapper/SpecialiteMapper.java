@@ -8,7 +8,6 @@ public class SpecialiteMapper {
     public static Specialite toEntity(SpecialiteDTO dto, Department department) {
         Specialite specialite = new Specialite();
 
-        // Ne set l'ID que pour l'édition (pas pour l'ajout)
         if (dto.getId() != null) {
             specialite.setId(dto.getId());
         }
@@ -16,7 +15,7 @@ public class SpecialiteMapper {
         specialite.setName(dto.getName());
         specialite.setActive(dto.getActive());
         specialite.setDescription(dto.getDescription());
-        specialite.setDepartment(department); // ← Utiliser l'objet Department complet
+        specialite.setDepartment(department);
         return specialite;
     }
 

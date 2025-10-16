@@ -70,11 +70,10 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 flex space-x-3">
-                            <a href="${pageContext.request.contextPath}/admin/users/edit?id=${user.id}"
-                               class="text-blue-600 hover:underline">Edit</a>
-                            <a href="${pageContext.request.contextPath}/admin/users/delete?id=${user.id}"
-                               class="text-red-600 hover:underline"
-                               onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                            <button onclick="showEditUserForm('${user.id}', '${user.fullName}', '${user.email}', '${user.role}')"
+                                    class="text-blue-600 hover:underline">Edit</button>
+                            <button onclick="confirmDeleteUser('${user.id}', '${user.fullName}', '${user.role}')"
+                                    class="text-red-600 hover:underline">Delete</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -133,21 +132,23 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Add New Doctor</h3>
+            <h3 id="modalTitleDoctor" class="text-2xl font-bold text-gray-900 dark:text-white">Add New Doctor</h3>
         </div>
-        <form action="${pageContext.request.contextPath}/admin/users/add?role=DOCTOR" method="post" class="space-y-4">
+        <form id="doctorForm" action="${pageContext.request.contextPath}/admin/users/doctors/save" method="post" class="space-y-4">
+            <input type="hidden" name="action" id="formActionDoctor" value="add">
+            <input type="hidden" name="id" id="doctorId">
             <div class="grid grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
-                    <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                    <input type="text" name="fullName" id="doctorFullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Matricule</label>
-                    <input type="text" name="matricule" placeholder="Enter matricule" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                    <input type="text" name="matricule" id="doctorMatricule" placeholder="Enter matricule" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Speciality</label>
-                    <select name="specialiteId" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                    <select name="specialiteId" id="doctorSpecialite" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
                         <option value="">-- Choose Speciality --</option>
                         <c:forEach var="spec" items="${specialiteList}">
                             <option value="${spec.id}">${spec.name}</option>
@@ -156,17 +157,19 @@
                 </div>
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                    <input type="email" name="email" placeholder="doctor@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                    <input type="email" name="email" id="doctorEmail" placeholder="doctor@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-                    <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" required>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Password <span class="text-gray-500 text-sm">(leave blank to keep current)</span>
+                    </label>
+                    <input type="password" name="password" id="doctorPassword" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all">
                 </div>
             </div>
-                <div class="flex justify-end gap-3 pt-4">
-                    <button type="button" onclick="closeAllModals()" class="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors">Cancel</button>
-                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Doctor</button>
-                </div>
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" onclick="closeAllModals()" class="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors">Cancel</button>
+                <button type="submit" id="submitButtonDoctor" class="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Doctor</button>
+            </div>
         </form>
     </div>
 </div>
@@ -180,30 +183,34 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Add New Staff</h3>
+            <h3 id="modalTitleStaff" class="text-2xl font-bold text-gray-900 dark:text-white">Add New Staff</h3>
         </div>
-        <form action="${pageContext.request.contextPath}/admin/users/add?role=STAFF" method="post" class="space-y-4">
+        <form id="staffForm" action="${pageContext.request.contextPath}/admin/users/add?role=STAFF" method="post" class="space-y-4">
+            <input type="hidden" name="action" id="formActionStaff" value="add">
+            <input type="hidden" name="id" id="staffId">
             <div class="grid grid-cols-4 gap-4">
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
-                    <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    <input type="text" name="fullName" id="staffFullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
                 </div>
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Position</label>
-                    <input type="text" name="position" placeholder="Enter position" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    <input type="text" name="position" id="staffPosition" placeholder="Enter position" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
                 </div>
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                    <input type="email" name="email" placeholder="staff@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    <input type="email" name="email" id="staffEmail" placeholder="staff@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
                 </div>
                 <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-                    <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Password <span class="text-gray-500 text-sm">(leave blank to keep current)</span>
+                    </label>
+                    <input type="password" name="password" id="staffPassword" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
                 </div>
             </div>
             <div class="flex justify-end gap-3 pt-4">
                 <button type="button" onclick="closeAllModals()" class="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors">Cancel</button>
-                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Staff</button>
+                <button type="submit" id="submitButtonStaff" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Staff</button>
             </div>
         </form>
     </div>
@@ -218,33 +225,37 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Add New Patient</h3>
+            <h3 id="modalTitlePatient" class="text-2xl font-bold text-gray-900 dark:text-white">Add New Patient</h3>
         </div>
-        <form action="${pageContext.request.contextPath}/admin/users/add?role=PATIENT" method="post" class="space-y-4">
+        <form id="patientForm" action="${pageContext.request.contextPath}/admin/users/add?role=PATIENT" method="post" class="space-y-4">
+            <input type="hidden" name="action" id="formActionPatient" value="add">
+            <input type="hidden" name="id" id="patientId">
             <div class="grid grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
-                    <input type="text" name="fullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                    <input type="text" name="fullName" id="patientFullName" placeholder="Enter full name" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">CIN</label>
-                    <input type="text" name="cin" placeholder="CIN" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                    <input type="text" name="cin" id="patientCin" placeholder="CIN" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Birth</label>
-                    <input type="date" name="dateOfBirth" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                    <input type="date" name="dateOfBirth" id="patientDateOfBirth" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                 </div>
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                    <input type="email" name="email" placeholder="patient@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                    <input type="email" name="email" id="patientEmail" placeholder="patient@example.com" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
-                    <input type="password" name="password" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Password <span class="text-gray-500 text-sm">(leave blank to keep current)</span>
+                    </label>
+                    <input type="password" name="password" id="patientPassword" placeholder="••••••••" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gender</label>
-                    <select name="gender" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                    <select name="gender" id="patientGender" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                         <option value="">-- Select Gender --</option>
                         <option value="MALE">Male</option>
                         <option value="FEMALE">Female</option>
@@ -252,7 +263,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Blood Type</label>
-                    <select name="bloodType" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
+                    <select name="bloodType" id="patientBloodType" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" required>
                         <option value="">-- Select Blood Type --</option>
                         <option value="A_POSITIVE">A+</option>
                         <option value="A_NEGATIVE">A-</option>
@@ -266,16 +277,19 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Insurance Number</label>
-                    <input type="text" name="insuranceNumber" placeholder="Insurance number (optional)" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                    <input type="text" name="insuranceNumber" id="patientInsuranceNumber" placeholder="Insurance number (optional)" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
                 </div>
             </div>
             <div class="flex justify-end gap-3 pt-4">
                 <button type="button" onclick="closeAllModals()" class="px-6 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors">Cancel</button>
-                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Patient</button>
+                <button type="submit" id="submitButtonPatient" class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 font-medium shadow-lg transition-all transform hover:scale-105">Save Patient</button>
             </div>
         </form>
     </div>
 </div>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Include Footer -->
 <%@ include file="layouts/footer.jsp" %>
@@ -320,12 +334,136 @@
     function showUserForm(type) {
         closeUserTypeModal();
         closeAllModals();
+        // Reset form to add mode
+        resetFormToAdd(type);
         document.getElementById(type + 'Modal').classList.remove('hidden');
     }
 
     function closeAllModals() {
         ['userTypeModal','doctorModal','staffModal','patientModal'].forEach(id => {
             document.getElementById(id).classList.add('hidden');
+        });
+    }
+
+    // دالة لعرض نموذج التعديل حسب نوع المستخدم
+    function showEditUserForm(id, fullName, email, role) {
+        closeAllModals();
+
+        if (role === 'DOCTOR') {
+            showEditDoctorForm(id, fullName, email);
+        } else if (role === 'STAFF') {
+            showEditStaffForm(id, fullName, email);
+        } else if (role === 'PATIENT') {
+            showEditPatientForm(id, fullName, email);
+        } else {
+            alert('Edit feature for ' + role + ' is not implemented yet');
+        }
+    }
+
+    // دالة لعرض نموذج تعديل الدكتور
+    function showEditDoctorForm(id, fullName, email) {
+        document.getElementById('doctorId').value = id;
+        document.getElementById('doctorFullName').value = fullName;
+        document.getElementById('doctorEmail').value = email;
+
+        // Reset other fields (you can fetch real data from server here)
+        document.getElementById('doctorMatricule').value = '';
+        document.getElementById('doctorSpecialite').value = '';
+        document.getElementById('doctorPassword').value = '';
+
+        // Update form for edit mode
+        document.getElementById('formActionDoctor').value = 'edit';
+        document.getElementById('modalTitleDoctor').textContent = 'Update Doctor';
+        document.getElementById('submitButtonDoctor').textContent = 'Update Doctor';
+
+        // Show modal
+        document.getElementById('doctorModal').classList.remove('hidden');
+    }
+
+    // دالة لعرض نموذج تعديل الموظف
+    function showEditStaffForm(id, fullName, email) {
+        document.getElementById('staffId').value = id;
+        document.getElementById('staffFullName').value = fullName;
+        document.getElementById('staffEmail').value = email;
+
+        // Reset other fields
+        document.getElementById('staffPosition').value = '';
+        document.getElementById('staffPassword').value = '';
+
+        // Update form for edit mode
+        document.getElementById('formActionStaff').value = 'edit';
+        document.getElementById('modalTitleStaff').textContent = 'Update Staff';
+        document.getElementById('submitButtonStaff').textContent = 'Update Staff';
+
+        // Show modal
+        document.getElementById('staffModal').classList.remove('hidden');
+    }
+
+    // دالة لعرض نموذج تعديل المريض
+    function showEditPatientForm(id, fullName, email) {
+        document.getElementById('patientId').value = id;
+        document.getElementById('patientFullName').value = fullName;
+        document.getElementById('patientEmail').value = email;
+
+        // Reset other fields
+        document.getElementById('patientCin').value = '';
+        document.getElementById('patientDateOfBirth').value = '';
+        document.getElementById('patientPassword').value = '';
+        document.getElementById('patientGender').value = '';
+        document.getElementById('patientBloodType').value = '';
+        document.getElementById('patientInsuranceNumber').value = '';
+
+        // Update form for edit mode
+        document.getElementById('formActionPatient').value = 'edit';
+        document.getElementById('modalTitlePatient').textContent = 'Update Patient';
+        document.getElementById('submitButtonPatient').textContent = 'Update Patient';
+
+        // Show modal
+        document.getElementById('patientModal').classList.remove('hidden');
+    }
+
+    // دالة لإعادة تعيين النموذج لوضع الإضافة
+    function resetFormToAdd(type) {
+        const form = document.getElementById(type + 'Form');
+        if (form) {
+            form.reset();
+            document.getElementById('formAction' + type.charAt(0).toUpperCase() + type.slice(1)).value = 'add';
+            document.getElementById('modalTitle' + type.charAt(0).toUpperCase() + type.slice(1)).textContent = 'Add New ' + type.charAt(0).toUpperCase() + type.slice(1);
+            document.getElementById('submitButton' + type.charAt(0).toUpperCase() + type.slice(1)).textContent = 'Save ' + type.charAt(0).toUpperCase() + type.slice(1);
+            document.getElementById(type + 'Id').value = '';
+        }
+    }
+
+    // دالة SweetAlert للحذف
+    function confirmDeleteUser(id, fullName, role) {
+        const escapedName = fullName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `You are about to delete ${role.toLowerCase()}: <strong>${escapedName}</strong>`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+            backdrop: true,
+            allowOutsideClick: false,
+            allowEscapeKey: true,
+            allowEnterKey: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Deleting...',
+                    text: 'Please wait while we delete the user',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                window.location.href = '${pageContext.request.contextPath}/admin/users/delete?id=' + id;
+            }
         });
     }
 
@@ -346,4 +484,29 @@
             closeAllModals();
         }
     });
+
+    // Show success/error messages
+    <c:if test="${not empty success}">
+    Swal.fire({
+        title: 'Success!',
+        text: '${success}',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    });
+    </c:if>
+
+    <c:if test="${not empty errors}">
+    Swal.fire({
+        title: 'Error!',
+        html: `<ul class="text-left">
+            <c:forEach var="error" items="${errors}">
+                <li>${error.value}</li>
+            </c:forEach>
+        </ul>`,
+        icon: 'error',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK'
+    });
+    </c:if>
 </script>

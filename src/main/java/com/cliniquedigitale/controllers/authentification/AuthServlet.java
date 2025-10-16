@@ -1,4 +1,4 @@
-package com.cliniquedigitale.controllers;
+package com.cliniquedigitale.controllers.authentification;
 
 import com.cliniquedigitale.dto.LoginDTO;
 import com.cliniquedigitale.dto.PatientDTO;
@@ -33,7 +33,7 @@ public class AuthServlet extends HttpServlet {
 
         switch (path) {
             case "/register":
-                request.getRequestDispatcher("/views/patient/register.jsp").forward(request, response);
+                request.getRequestDispatcher("/views/Authentification/register.jsp").forward(request, response);
                 break;
             case "/login":
                 request.getRequestDispatcher("/views/Authentification/login.jsp").forward(request, response);
@@ -65,7 +65,6 @@ public class AuthServlet extends HttpServlet {
         String name = req.getParameter("fullName");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        String phone = req.getParameter("phone");
         String gender = req.getParameter("gender");
         String cin = req.getParameter("cin");
         String insuranceNumber = req.getParameter("insuranceNumber");
@@ -74,15 +73,15 @@ public class AuthServlet extends HttpServlet {
 
         PatientDTO registerPatientDTO = new PatientDTO(
                 email, password, name, Gender.valueOf(gender),
-                LocalDate.parse(dateOfBirth), phone, cin,
+                LocalDate.parse(dateOfBirth), cin,
                 insuranceNumber, BloodType.valueOf(bloodType)
         );
 
-        Map<String, String> errors = patientService.registerPatient(registerPatientDTO);
+        Map<String, String> errors = patientService.createPatient(registerPatientDTO);
 
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
-            req.getRequestDispatcher("/views/patient/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/Authentification/register.jsp").forward(req, resp);
         } else {
             req.setAttribute("success", "Registration successful! Please login.");
             req.getRequestDispatcher("/views/Authentification/login.jsp").forward(req, resp);
@@ -96,7 +95,6 @@ public class AuthServlet extends HttpServlet {
         String password = req.getParameter("password");
         String remember = req.getParameter("remember");
 
-        // Validate inputs
         if (email == null || email.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
             req.setAttribute("error", "Email and password are required");
@@ -104,18 +102,15 @@ public class AuthServlet extends HttpServlet {
             return;
         }
 
-        // Login
         LoginDTO loginDTO = new LoginDTO(email, password);
         Map<String, String> errors = new HashMap<>();
         User user = authService.loginUser(loginDTO, errors);
 
         if (user == null) {
-            // Login failed
             req.setAttribute("errors", errors);
             req.setAttribute("error", "Invalid email or password");
             req.getRequestDispatcher("/views/Authentification/login.jsp").forward(req, resp);
         } else {
-            // Login success - Create session
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
             session.setAttribute("userId", user.getId());
@@ -123,15 +118,12 @@ public class AuthServlet extends HttpServlet {
             session.setAttribute("userName", user.getFullName());
             session.setAttribute("userRole", user.getRole().name());
 
-            // Session timeout
-            session.setMaxInactiveInterval(30 * 60); // 30 minutes
+            session.setMaxInactiveInterval(30 * 60);
 
-            // Remember me
             if ("on".equals(remember)) {
-                session.setMaxInactiveInterval(30 * 24 * 60 * 60); // 30 days
+                session.setMaxInactiveInterval(30 * 24 * 60 * 60);
             }
 
-            // ✅ REDIRECT vers SERVLETS (pas /)
             String role = user.getRole().name();
 
             switch (role) {

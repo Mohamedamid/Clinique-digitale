@@ -12,14 +12,9 @@ public class AuthService {
 
     private UserRepository userRepository = new UserRepository();
 
-    /**
-     * Login user
-     * Returns User if successful, null otherwise
-     */
     public User loginUser(LoginDTO dto, Map<String, String> errors) {
         Validator validator = new Validator();
 
-        // Validate inputs
         validator.email("email", dto.getEmail(), "Email is invalid");
         validator.required("password", dto.getPassword(), "Password is required");
 
@@ -28,7 +23,6 @@ public class AuthService {
             return null;
         }
 
-        // Find user by email
         User user = userRepository.findByEmail(dto.getEmail());
 
         if (user == null) {
@@ -36,7 +30,6 @@ public class AuthService {
             return null;
         }
 
-        // Verify password
         boolean passwordMatches = PasswordUtils.verifyPassword(dto.getPassword(), user.getPassword());
 
         if (!passwordMatches) {
@@ -44,7 +37,6 @@ public class AuthService {
             return null;
         }
 
-        // ✅ Return user if login successful
         return user;
     }
 }

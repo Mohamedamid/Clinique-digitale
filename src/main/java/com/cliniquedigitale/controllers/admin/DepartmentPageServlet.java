@@ -1,4 +1,4 @@
-package com.cliniquedigitale.controllers;
+package com.cliniquedigitale.controllers.admin;
 
 import com.cliniquedigitale.dto.DepartmentDTO;
 import com.cliniquedigitale.services.DepartmentService;

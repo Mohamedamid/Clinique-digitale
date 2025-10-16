@@ -13,7 +13,7 @@ public class Doctor {
     @Column(nullable = false, unique = true)
     private String matricule;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
