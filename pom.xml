@@ -40,7 +40,11 @@
             <artifactId>postgresql</artifactId>
             <version>42.6.0</version> <!-- or 42.7.x latest stable -->
         </dependency>
-
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
         <!-- JAXB (needed if you're marshalling/unmarshalling XML) -->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>

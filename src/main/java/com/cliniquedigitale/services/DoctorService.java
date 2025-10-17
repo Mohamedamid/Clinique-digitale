@@ -120,6 +120,9 @@ public class DoctorService {
         }
     }
 
+    public Doctor findByUserId(Long userId) {
+        return doctorRepository.findByUserId(userId);
+    }
 
     public List<DoctorDTO> getAllDoctors() {
         List<Doctor> doctors = doctorRepository.findAll();

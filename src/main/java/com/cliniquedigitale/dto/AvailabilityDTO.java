@@ -1,58 +1,27 @@
-package com.cliniquedigitale.entity;
+package com.cliniquedigitale.dto;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
+import com.cliniquedigitale.entity.Availability.DayOfWeekEnum;
 import java.time.LocalTime;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "availabilities")
-public class Availability {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AvailabilityDTO {
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "day_of_week", nullable = false)
     private DayOfWeekEnum dayOfWeek;
-
-    @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
-
-    @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
-
-    @Column(name = "is_available")
     private boolean isAvailable = true;
-
-    @Column(name = "slot_duration", nullable = false)
     private Integer slotDuration;
-
-    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
-
-    @Column(name = "end_date")
     private LocalDate endDate;
-
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
-
-    public enum DayOfWeekEnum {
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
-        SUNDAY
-    }
+    private Long doctorId;
+    private String doctorName;
 
     // Constructeurs
-    public Availability() {}
+    public AvailabilityDTO() {}
 
-    public Availability(Long id, DayOfWeekEnum dayOfWeek, LocalTime startTime, LocalTime endTime,
-                        boolean isAvailable, Integer slotDuration, LocalDate startDate,
-                        LocalDate endDate, Doctor doctor) {
+    public AvailabilityDTO(Long id, DayOfWeekEnum dayOfWeek, LocalTime startTime, LocalTime endTime,
+                           boolean isAvailable, Integer slotDuration, LocalDate startDate, LocalDate endDate,
+                           Long doctorId, String doctorName) {
         this.id = id;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
@@ -61,10 +30,11 @@ public class Availability {
         this.slotDuration = slotDuration;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.doctor = doctor;
+        this.doctorId = doctorId;
+        this.doctorName = doctorName;
     }
 
-    // Getters et setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -129,17 +99,25 @@ public class Availability {
         this.endDate = endDate;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Long getDoctorId() {
+        return doctorId;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     @Override
     public String toString() {
-        return "Availability{" +
+        return "AvailabilityDTO{" +
                 "id=" + id +
                 ", dayOfWeek=" + dayOfWeek +
                 ", startTime=" + startTime +
@@ -148,7 +126,8 @@ public class Availability {
                 ", slotDuration=" + slotDuration +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", doctor=" + (doctor != null ? doctor.getId() : "null") +
+                ", doctorId=" + doctorId +
+                ", doctorName='" + doctorName + '\'' +
                 '}';
     }
 }
