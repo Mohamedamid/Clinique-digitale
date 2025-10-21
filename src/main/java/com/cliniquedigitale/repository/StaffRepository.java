@@ -1,7 +1,6 @@
 package com.cliniquedigitale.repository;
 
 import com.cliniquedigitale.config.JpaUtil;
-import com.cliniquedigitale.entity.Department;
 import com.cliniquedigitale.entity.Staff;
 import jakarta.persistence.EntityManager;
 
@@ -24,7 +23,7 @@ public class StaffRepository {
             em.getTransaction().begin();
             em.persist(staff);
             em.getTransaction().commit();
-            System.out.println("✅ Staff saved: " + staff.getUser().getFullName());
+            System.out.println("Staff saved: " + staff.getUser().getFullName());
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             e.printStackTrace();
@@ -42,7 +41,7 @@ public class StaffRepository {
             em.merge(staff);
 
             em.getTransaction().commit();
-            System.out.println("✅ Staff updated: " + staff.getUser().getFullName());
+            System.out.println("Staff updated: " + staff.getUser().getFullName());
 
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
@@ -72,7 +71,7 @@ public class StaffRepository {
             Staff staff = em.find(Staff.class, id);
             if (staff != null) {
                 em.remove(staff);
-                System.out.println("✅ Staff deleted: " + staff.getUser().getFullName());
+                System.out.println("Staff deleted: " + staff.getUser().getFullName());
             }
             em.getTransaction().commit();
         } catch (Exception e) {

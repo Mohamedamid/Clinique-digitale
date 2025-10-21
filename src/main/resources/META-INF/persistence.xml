@@ -11,6 +11,7 @@
         <class>com.cliniquedigitale.entity.User</class>
         <class>com.cliniquedigitale.entity.Patient</class>
         <class>com.cliniquedigitale.entity.Appointment</class>
+        <class>com.cliniquedigitale.entity.Appointments</class>
         <class>com.cliniquedigitale.entity.Availability</class>
         <class>com.cliniquedigitale.entity.Department</class>
         <class>com.cliniquedigitale.entity.Doctor</class>

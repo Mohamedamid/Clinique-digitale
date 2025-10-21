@@ -1,55 +1,50 @@
 package com.cliniquedigitale.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
-@Table(name = "appointments")
-public class Appointment {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "appointmentss")
+public class Appointments {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "appointment_number", nullable = false, unique = true)
-    private String appointmentNumber;
-    @Temporal(TemporalType.DATE)
+
     @Column(name = "appointment_date", nullable = false)
-    private LocalDate appointmentDate;
+    private java.time.LocalDate appointmentDate;
+
     @Column(name = "start_time", nullable = false)
-    private LocalTime startTime;
+    private java.time.LocalTime startTime;
+
     @Column(name = "end_time", nullable = false)
-    private LocalTime endTime;
+    private java.time.LocalTime endTime;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private AppointmentStatusEnum status = AppointmentStatusEnum.PLANNED;
+
     @Column(name = "canceled_by")
     private String canceledBy;
-    @Temporal(TemporalType.TIMESTAMP)
+
     @Column(name = "canceled_at")
-    private Date canceledAt;
-    @Column(name = "cancellation_reason")
-    private String cancellationReason;
+    private java.time.LocalDateTime canceledAt;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
+
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
-    @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private Staff staff;
 
-    public enum AppointmentStatusEnum { CANCELED, DONE, PLANNED }
+    @OneToMany(mappedBy = "appointment")
+    private java.util.List<MedicalNote> medicalNotes;
 
-    public Appointment() {}
-    public Appointment(Long id, String appointmentNumber, LocalDate appointmentDate, LocalTime startTime, LocalTime endTime,
-                       AppointmentStatusEnum status, String canceledBy, Date canceledAt, String cancellationReason,
-                       Doctor doctor, Patient patient, Staff staff) {
-        this.id = id; this.appointmentNumber = appointmentNumber; this.appointmentDate = appointmentDate; this.startTime = startTime; this.endTime = endTime;
-        this.status = status; this.canceledBy = canceledBy; this.canceledAt = canceledAt; this.cancellationReason = cancellationReason;
-        this.doctor = doctor; this.patient = patient; this.staff = staff;
+    public enum AppointmentStatusEnum {
+        CANCELED, DONE, PLANNED
     }
 
     public Long getId() {
@@ -58,14 +53,6 @@ public class Appointment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAppointmentNumber() {
-        return appointmentNumber;
-    }
-
-    public void setAppointmentNumber(String appointmentNumber) {
-        this.appointmentNumber = appointmentNumber;
     }
 
     public LocalDate getAppointmentDate() {
@@ -108,20 +95,12 @@ public class Appointment {
         this.canceledBy = canceledBy;
     }
 
-    public Date getCanceledAt() {
+    public LocalDateTime getCanceledAt() {
         return canceledAt;
     }
 
-    public void setCanceledAt(Date canceledAt) {
+    public void setCanceledAt(LocalDateTime canceledAt) {
         this.canceledAt = canceledAt;
-    }
-
-    public String getCancellationReason() {
-        return cancellationReason;
-    }
-
-    public void setCancellationReason(String cancellationReason) {
-        this.cancellationReason = cancellationReason;
     }
 
     public Doctor getDoctor() {
@@ -140,11 +119,11 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public Staff getStaff() {
-        return staff;
+    public List<MedicalNote> getMedicalNotes() {
+        return medicalNotes;
     }
 
-    public void setStaff(Staff staff) {
-        this.staff = staff;
+    public void setMedicalNotes(List<MedicalNote> medicalNotes) {
+        this.medicalNotes = medicalNotes;
     }
 }

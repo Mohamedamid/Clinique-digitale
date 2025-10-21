@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ import java.util.Map;
         "/doctor/availability/save",
         "/doctor/availability/edit",
         "/doctor/availability/delete",
+        "/doctor/availability/toggle",
 })
 public class AvailabilityServlet extends HttpServlet {
     private AvailabilityService availabilityService;
@@ -50,7 +50,6 @@ public class AvailabilityServlet extends HttpServlet {
 
         Long userId = (Long) session.getAttribute("userId");
 
-        // Récupérer le doctorId d'abord
         Doctor doctor = doctorRepository.findByUserId(userId);
 
         Long doctorId = doctor.getId();
@@ -58,17 +57,11 @@ public class AvailabilityServlet extends HttpServlet {
         String path = req.getServletPath();
         System.out.println("GET Request Path: " + path);
 
-        if (path.equals("/doctor/availability")) {
-            List<Availability> availabilities = availabilityService.getDoctorAvailability(doctorId);
-            System.out.println(availabilities);
-            req.setAttribute("availabilities", availabilities);
-            req.getRequestDispatcher("/views/doctor/availability.jsp").forward(req, resp);
-        } else {
-            List<Availability> availabilities = availabilityService.getDoctorAvailability(doctorId);
-            System.out.println(availabilities);
-            req.setAttribute("availabilities", availabilities);
-            req.getRequestDispatcher("/views/doctor/availability.jsp").forward(req, resp);
-        }
+        List<Availability> availabilities = availabilityService.getDoctorAvailability(doctorId);
+        System.out.println(availabilities);
+        req.setAttribute("availabilities", availabilities);
+        req.getRequestDispatcher("/views/doctor/availability.jsp").forward(req, resp);
+
     }
 
     @Override
@@ -91,7 +84,6 @@ public class AvailabilityServlet extends HttpServlet {
 
         Long userId = (Long) session.getAttribute("userId");
 
-        // Récupérer le doctorId d'abord
         Doctor doctor = doctorRepository.findByUserId(userId);
 
         Long doctorId = doctor.getId();
@@ -112,6 +104,9 @@ public class AvailabilityServlet extends HttpServlet {
                 break;
             case "/doctor/availability/delete":
                 deleteAvailability(req, resp);
+                break;
+            case "/doctor/availability/toggle":
+                toggleAvailability(req, resp);
                 break;
             default:
                 List<Availability> availabilities = availabilityService.getDoctorAvailability(doctorId);
@@ -191,8 +186,13 @@ public class AvailabilityServlet extends HttpServlet {
             List<Availability> availabilities = availabilityService.getDoctorAvailability(doctor.getId());
             req.setAttribute("availabilities", availabilities);
         }
-        req.setAttribute("activePage", "availability");
         req.getRequestDispatcher("/views/doctor/availability.jsp").forward(req, resp);
+    }
+
+    private void toggleAvailability(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Long id = Long.parseLong(req.getParameter("id"));
+        availabilityService.toggleAvailability(id);
+        resp.sendRedirect(req.getContextPath() + "/doctor/availability");
     }
 
 //    private Long getCurrentDoctorId(HttpSession session) {

@@ -8,7 +8,6 @@ public class SpecialiteDTO {
     private Long departmentId;
     private String departmentName;
 
-    // Constructeur complet
     public SpecialiteDTO(Long id, String name, boolean active, String description,
                          Long departmentId, String departmentName) {
         this.id = id;
@@ -19,7 +18,6 @@ public class SpecialiteDTO {
         this.departmentName = departmentName;
     }
 
-    // Constructeur sans departmentName (pour compatibilité)
     public SpecialiteDTO(Long id, String name, boolean active, String description,
                          Long departmentId) {
         this(id, name, active, description, departmentId, null);

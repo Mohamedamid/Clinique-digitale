@@ -2,18 +2,13 @@ package com.cliniquedigitale.repository;
 
 import com.cliniquedigitale.config.JpaUtil;
 import com.cliniquedigitale.entity.Patient;
-import com.cliniquedigitale.entity.Patient;
-import com.cliniquedigitale.entity.Patient;
-import com.cliniquedigitale.entity.Patient;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
 public class PatientRepository{
 
-    /**
-     * Save a new patient
-     */
     public void save(Patient patient) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
@@ -38,7 +33,7 @@ public class PatientRepository{
             em.merge(patient);
 
             em.getTransaction().commit();
-            System.out.println("✅ Patient updated: " + patient.getUser().getFullName());
+            System.out.println("Patient updated: " + patient.getUser().getFullName());
 
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
@@ -58,7 +53,7 @@ public class PatientRepository{
             Patient patient = em.find(Patient.class, id);
             if (patient != null) {
                 em.remove(patient);
-                System.out.println("✅ Patient deleted: " + patient.getUser().getFullName());
+                System.out.println("Patient deleted: " + patient.getUser().getFullName());
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -84,6 +79,24 @@ public class PatientRepository{
         try {
             return em.createQuery("SELECT p FROM Patient p", Patient.class)
                     .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Patient findByUserId(Long userId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return em.createQuery(
+                            "SELECT p FROM Patient p WHERE p.user.id = :userId", Patient.class)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("No patient found for user ID: " + userId);
+            return null;
+        } catch (Exception e) {
+            System.err.println("Error finding patient by user id: " + e.getMessage());
+            throw new RuntimeException("Error finding patient by user id", e);
         } finally {
             em.close();
         }

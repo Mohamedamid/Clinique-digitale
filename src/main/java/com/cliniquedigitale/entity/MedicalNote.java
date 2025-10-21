@@ -1,30 +1,30 @@
 package com.cliniquedigitale.entity;
-
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "medical_notes")
 public class MedicalNote {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String symptoms;
+
     @Column(nullable = false)
     private String prescription;
-    @Column
+
     private String notes;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="created_at")
-    private Date createdAt = new Date();
+
+    @Column(name = "created_at")
+    private java.time.LocalDateTime createdAt = java.time.LocalDateTime.now();
+
     @ManyToOne
     @JoinColumn(name = "appointment_id", nullable = false)
-    private Appointment appointment;
-
-    public MedicalNote() {}
-    public MedicalNote(Long id, String symptoms, String prescription, String notes, Date createdAt, Appointment appointment) {
-        this.id = id; this.symptoms = symptoms; this.prescription = prescription; this.notes = notes; this.createdAt = createdAt; this.appointment = appointment;
-    }
+    private Appointments appointment;
 
     public Long getId() {
         return id;
@@ -58,19 +58,19 @@ public class MedicalNote {
         this.notes = notes;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Appointment getAppointment() {
+    public Appointments getAppointment() {
         return appointment;
     }
 
-    public void setAppointment(Appointment appointment) {
+    public void setAppointment(Appointments appointment) {
         this.appointment = appointment;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -40,7 +40,6 @@ public class DoctorService {
         if (validator.hasErrors()) return validator.getErrors();
 
         try {
-            // 👇 check if email already exists
             UserRepository userRepository = new UserRepository();
             var existingUser = userRepository.findByEmail(dto.getEmail());
             if (existingUser != null) {
@@ -51,7 +50,6 @@ public class DoctorService {
             if (specialite == null)
                 return Map.of("specialiteId", "Speciality not found");
 
-            // hash password
             dto.setPassword(PasswordUtils.hashPassword(dto.getPassword()));
 
             Doctor doctor = DoctorMapper.toEntity(dto, specialite);
@@ -94,22 +92,18 @@ public class DoctorService {
                 return Map.of("specialiteId", "Speciality not found");
             }
 
-            // --- تحديث بيانات المستخدم ---
             existingDoctor.getUser().setFullName(dto.getFullName());
             existingDoctor.getUser().setEmail(dto.getEmail());
-            existingDoctor.getUser().setRole(existingDoctor.getUser().getRole()); // نفس الدور
+            existingDoctor.getUser().setRole(existingDoctor.getUser().getRole());
 
-            // فقط إذا المستخدم دخل كلمة سر جديدة
             if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
                 String hashedPassword = PasswordUtils.hashPassword(dto.getPassword());
                 existingDoctor.getUser().setPassword(hashedPassword);
             }
 
-            // --- تحديث بيانات الطبيب ---
             existingDoctor.setMatricule(dto.getMatricule());
             existingDoctor.setSpecialite(specialite);
 
-            // --- حفظ التحديث ---
             doctorRepository.edit(existingDoctor);
 
             return Map.of();
@@ -134,5 +128,10 @@ public class DoctorService {
     public Map<String, String> delete(Long id) {
         doctorRepository.delete(id);
         return Map.of();
+    }
+
+    public Doctor findDoctor(long id){
+        Doctor doctor = doctorRepository.findDoctor(id);
+        return doctor;
     }
 }

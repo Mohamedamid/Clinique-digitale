@@ -36,7 +36,7 @@
                 <span class="font-medium">Appointments</span>
             </a>
 
-            <a href="${pageContext.request.contextPath}/patient/doctors"
+            <!--<a href="${pageContext.request.contextPath}/patient/doctors"
                class="flex items-center px-4 py-3 mb-1 rounded-lg
                <%= "doctors".equals(activePage) ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" %>">
                 <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
@@ -53,7 +53,7 @@
                     <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
                 </svg>
                 <span class="font-medium">Records</span>
-            </a>
+            </a>-->
         </nav>
 
         <!-- User -->

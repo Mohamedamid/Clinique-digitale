@@ -22,7 +22,7 @@ public class Specialite {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-
+    
     public Specialite() {}
 
     public Specialite(String name, String description, Department department) {

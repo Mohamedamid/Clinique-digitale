@@ -1,6 +1,7 @@
 package com.cliniquedigitale.services;
 
 import com.cliniquedigitale.dto.PatientDTO;
+import com.cliniquedigitale.entity.Doctor;
 import com.cliniquedigitale.entity.Patient;
 import com.cliniquedigitale.entity.Patient;
 import com.cliniquedigitale.entity.User;
@@ -102,6 +103,10 @@ public class PatientService {
     public Map<String, String> delete(Long id) {
         patientRepository.delete(id);
         return Map.of();
+    }
+
+    public Patient findByUserId(Long userId) {
+        return patientRepository.findByUserId(userId);
     }
 
 }

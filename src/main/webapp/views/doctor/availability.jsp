@@ -1,19 +1,22 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--<%@ page contentType="text/html;charset=UTF-8" %>--%>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
+<%--<!DOCTYPE html>--%>
+<%--<html lang="en" class="h-full bg-gray-50 dark:bg-gray-900">--%>
+<%--<head>--%>
+<%--    <meta charset="UTF-8">--%>
+<%--    <meta name="viewport" content="width=device-width, initial-scale=1.0">--%>
+<%--    <title>Availability - Clinique Digitale</title>--%>
+<%--    <script src="https://cdn.tailwindcss.com"></script>--%>
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">--%>
+<%--</head>--%>
+<%--<body class="h-full font-sans">--%>
+
 <%
     String activePage = "availability";
 %>
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-gray-50 dark:bg-gray-900">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Availability - Clinique Digitale</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body class="h-full font-sans">
+
+<%@ include file="layouts/header.jsp"%>
 <div class="flex">
     <%@ include file="layouts/sidebar.jsp"%>
 
@@ -159,6 +162,12 @@
                                                     ${avail.startTime} - ${avail.endTime}
                                             </p>
 
+                                            <!-- Date -->
+                                            <p class="text-gray-300 mb-2 flex items-center">
+                                                <i class="fa-regular fa-clock mr-1"></i>
+                                                    ${avail.startDate} / ${avail.endDate}
+                                            </p>
+
                                             <!-- Slot Duration -->
                                             <p class="text-gray-300 mb-4 flex items-center">
                                                 <i class="fa-solid fa-stopwatch mr-1"></i>
@@ -248,5 +257,4 @@
         }
     }
 </script>
-</body>
-</html>
+<%@include file="layouts/footer.jsp"%>

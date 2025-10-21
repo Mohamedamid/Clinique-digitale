@@ -32,7 +32,6 @@ public class DoctorRepository {
         try {
             Doctor doctor = em.find(Doctor.class, id);
             if (doctor != null && doctor.getUser() != null) {
-                // Force l'initialisation du user pour éviter LazyInitializationException
                 doctor.getUser().getEmail();
             }
             return doctor;
@@ -50,7 +49,7 @@ public class DoctorRepository {
             em.getTransaction().begin();
             em.persist(doctor);
             em.getTransaction().commit();
-            System.out.println("✅ Doctor saved: " + doctor.getUser().getFullName());
+            System.out.println("Doctor saved: " + doctor.getUser().getFullName());
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             e.printStackTrace();
@@ -65,11 +64,10 @@ public class DoctorRepository {
         try {
             em.getTransaction().begin();
 
-            // Utiliser merge pour mettre à jour l'entité détachée
             em.merge(doctor);
 
             em.getTransaction().commit();
-            System.out.println("✅ Doctor updated: " + doctor.getUser().getFullName());
+            System.out.println("Doctor updated: " + doctor.getUser().getFullName());
 
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
@@ -99,13 +97,25 @@ public class DoctorRepository {
             Doctor doctor = em.find(Doctor.class, id);
             if (doctor != null) {
                 em.remove(doctor);
-                System.out.println("✅ Doctor deleted: " + doctor.getUser().getFullName());
+                System.out.println("Doctor deleted: " + doctor.getUser().getFullName());
             }
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             e.printStackTrace();
             throw new RuntimeException("Error deleting doctor: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
+
+    public Doctor findDoctor(long doctorId) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            Doctor doctor = em.find(Doctor.class, doctorId);
+            doctor.getAvailabilities().size();
+            doctor.getAppointments().size();
+            return doctor;
         } finally {
             em.close();
         }

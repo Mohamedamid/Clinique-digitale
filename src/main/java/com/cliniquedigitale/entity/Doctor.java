@@ -2,6 +2,8 @@ package com.cliniquedigitale.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "doctors")
 public class Doctor {
@@ -21,12 +23,23 @@ public class Doctor {
     @JoinColumn(name = "specialite_id")
     private Specialite specialite;
 
+    @OneToMany(mappedBy = "doctor")
+    private List<Availability> availabilities;
+
+    @OneToMany(mappedBy = "doctor")
+    private  List<Appointments> appointments;
+
+
     public Doctor() {}
 
     public Doctor(String matricule, User user, Specialite specialite) {
         this.matricule = matricule;
         this.user = user;
         this.specialite = specialite;
+    }
+
+    public Doctor(Long id) {
+        this.id = id;
     }
 
     // getters/setters...
@@ -38,4 +51,20 @@ public class Doctor {
     public void setUser(User user) { this.user = user; }
     public Specialite getSpecialite() { return specialite; }
     public void setSpecialite(Specialite specialite) { this.specialite = specialite; }
+
+    public List<Availability> getAvailabilities() {
+        return availabilities;
+    }
+
+    public void setAvailabilities(List<Availability> availabilities) {
+        this.availabilities = availabilities;
+    }
+
+    public List<Appointments> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointments> appointments) {
+        this.appointments = appointments;
+    }
 }

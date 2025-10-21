@@ -9,8 +9,7 @@ public class TestJpa {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("cliniquePU");
             EntityManager em = emf.createEntityManager();
-
-//            resp.getWriter().println("JPA SUCCESS: connexion & persistence.xml OK");
+            System.out.println("JPA SUCCESS: connexion & persistence.xml OK");
 
             em.close();
             emf.close();
